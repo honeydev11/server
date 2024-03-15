@@ -20,6 +20,9 @@ app.use(cors({ origin: "*" }));
 
 app.use(express.json());
 
+app.use(express.static("public"));
+
+
 const routePrefix = "/api/v1";
 
 app.get(routePrefix, (req, res) => {
@@ -28,6 +31,14 @@ app.get(routePrefix, (req, res) => {
 
 app.use(`${routePrefix}/auth`, authRoutes);
 app.use(`${routePrefix}/task`, taskRoutes);
+
+app.get('/*', function (_, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
+
+app.use((_, res, __) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.use(errorHandler);
 
